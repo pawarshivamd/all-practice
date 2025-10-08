@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .nav {
+            height: 80px;
+            background-color: rgb(0, 0, 0);
+        }
+
+        .sticky {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgb(0, 255, 0);
+        }
+
+        .hidden {
+            top: -80px;
+            /* navbar upar slide kare */
+        }
+
+        .box {
+            height: 900px;
+            background-color: rgb(255, 0, 0);
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+
+    </nav>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+
+    <!-- <script>
+        let lastScrollY = 0;
+        let nav = document.querySelector(".nav");
+
+        document.addEventListener("scroll",(e)=>{
+            const currentScrollY = window.scrollY;
+            if(currentScrollY > 100){
+                nav.classList.add("sticky");
+            }
+            else{
+                nav.classList.remove("sticky");
+            }
+            if(currentScrollY > lastScrollY && currentScrollY > 100){
+                // down scroll
+                nav.classList.add("hidden");
+            }
+            else{
+                // up scroll
+                nav.classList.remove("hidden");
+            }
+            lastScrollY = currentScrollY;
+            console.log("scrolling",scrollY ,currentScrollY )
+        })
+    </script> -->
+    <!-- <script>
+        let nav = document.querySelector(".nav");
+        let lastScrollY = 0;
+        let ticking = false;
+        const handelScroll = () => {
+            const currentScrollY = window.scrollY;
+            nav.classList.toggle("sticky", currentScrollY > 100);
+            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                // down scroll
+                nav.classList.add("hidden");
+            }
+            else {
+                // up scroll
+                nav.classList.remove("hidden");
+            }
+            lastScrollY = currentScrollY;
+            ticking = false;
+            console.log("scrolling", scrollY, currentScrollY)
+        }
+        document.addEventListener("scroll", (e) => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    handelScroll();
+                });
+                ticking = true;
+            }
+        })
+    </script> -->
+<script>
+    const nav = document.querySelector(".nav");
+    let lastY = 0;
+    addEventListener('scroll',e =>{
+        let y = window.scrollY;
+        nav.classList.toggle("sticky",y > 100);
+        nav.classList.toggle('hidden',y > lastY && y > 100)   
+        lastY = y;
+    })
+</script>
+</body>
+
+</html>
