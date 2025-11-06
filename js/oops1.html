@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+       
+    <meta charset="UTF-8" />
+       
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Mobile Shop with Add & Recharge</title>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        input,
+        button {
+            margin: 5px 0;
+            padding: 8px;
+            width: 200px;
+        }
+
+        .container {
+            margin-bottom: 30px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+
+        <div class="container">
+                <h2>Add New Mobile</h2>
+                <input type="text" id="mobileName" placeholder="Mobile Name" />
+                <input type="number" id="mobilePrice" placeholder="Price" />
+                <input type="text" id="mobileBrand" placeholder="Brand" />
+                <button onclick="addNewMobile()">Add Mobile</button>
+            </div>
+
+        <div class="container">
+                <h2>Add New SIM</h2>
+                <input type="text" id="simBrand" placeholder="SIM Brand" />
+                <input type="number" id="simBalance" placeholder="Initial Balance" />
+                <button onclick="addNewSim()">Add SIM</button>
+            </div>
+
+        <div class="container">
+                <h2>Mobiles in Shop</h2>
+                <ul id="mobileList"></ul>
+            </div>
+
+        <div class="container">
+                <h2>SIMs and Recharge</h2>
+                <ul id="simList"></ul>
+            </div>
+
+       
+    <script>
+        class MobileShop {
+            constructor() {
+                this.mobiles = [];
+            }
+            addMobile(mobile) {
+                this.mobiles.push(mobile);
+                this.listAllMobiles();
+            }
+            listAllMobiles() {
+                const mobileListElement = document.getElementById('mobileList');
+                mobileListElement.innerHTML = '';
+                this.mobiles.forEach((mobile, index) => {
+                    const li = document.createElement('li');
+                    li.textContent = `Name: ${mobile.name}, Price: $${mobile.price}, Brand: ${mobile.brand}`;
+                    mobileListElement.appendChild(li);
+                });
+            }
+        }
+
+        class Mobile {
+            constructor(name, price, brand) {
+                this.name = name;
+                this.price = price;
+                this.brand = brand;
+            }
+        }
+
+        class Sim {
+            constructor(brand, balance) {
+                this.brand = brand;
+                this.balance = balance;
+            }
+            addBalance(amount) {
+                if (amount > 0) {
+                    this.balance += amount;
+                    alert(`Added $${amount} to ${this.brand} SIM. New Balance: $${this.balance}`);
+                    renderSims();
+                } else {
+                    alert('Enter a positive amount to add');
+                }
+            }
+        }
+
+        const shop = new MobileShop();
+        let sims = [];
+
+        function addNewMobile() {
+            const name = document.getElementById('mobileName').value.trim();
+            const price = parseFloat(document.getElementById('mobilePrice').value);
+            const brand = document.getElementById('mobileBrand').value.trim();
+            if (name && brand && !isNaN(price) && price > 0) {
+                const mobile = new Mobile(name, price, brand);
+                shop.addMobile(mobile);
+                // Clear inputs
+                document.getElementById('mobileName').value = '';
+                document.getElementById('mobilePrice').value = '';
+                document.getElementById('mobileBrand').value = '';
+            } else {
+                alert('Please enter valid mobile details.');
+            }
+        }
+
+        function addNewSim() {
+            const brand = document.getElementById('simBrand').value.trim();
+            const balance = parseFloat(document.getElementById('simBalance').value);
+            if (brand && !isNaN(balance) && balance >= 0) {
+                const sim = new Sim(brand, balance);
+                sims.push(sim);
+                renderSims();
+                // Clear inputs
+                document.getElementById('simBrand').value = '';
+                document.getElementById('simBalance').value = '';
+            } else {
+                alert('Please enter valid SIM details.');
+            }
+        }
+
+        function renderSims() {
+            const simListElement = document.getElementById('simList');
+            simListElement.innerHTML = '';
+
+            sims.forEach((sim, index) => {
+                const li = document.createElement('li');
+                li.textContent = `Brand: ${sim.brand}, Balance: $${sim.balance.toFixed(2)}`;
+
+                const rechargeInput = document.createElement('input');
+                rechargeInput.type = 'number';
+                rechargeInput.placeholder = 'Add Balance';
+                rechargeInput.style.marginLeft = '10px';
+                rechargeInput.id = 'rechargeInput' + index;
+
+                const rechargeButton = document.createElement('button');
+                rechargeButton.textContent = 'Recharge';
+                rechargeButton.style.marginLeft = '5px';
+                rechargeButton.onclick = () => {
+                    const amount = parseFloat(document.getElementById('rechargeInput' + index).value);
+                    sims[index].addBalance(amount);
+                    document.getElementById('rechargeInput' + index).value = '';
+                };
+
+                li.appendChild(rechargeInput);
+                li.appendChild(rechargeButton);
+
+                simListElement.appendChild(li);
+            });
+        }
+
+    </script>
+</body>
+
+</html>
