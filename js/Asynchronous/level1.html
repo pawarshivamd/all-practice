@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    1. Food Delivery Simulation (Promise Refresher)
+    Task: Create a function orderFood that returns a Promise.
+
+    It should resolve after 2 seconds with the message "🍕 Pizza delivered!".
+
+    Bonus: Add a 20% chance to reject immediately with "⛔️ Delivery failed!".
+
+    Challenge: Call the function and use .then() and .catch() to handle the result.
+    <div style="margin: 90px;">
+        <button id="orderBtn">Order Food</button>
+        <p id="status"></p>
+
+    </div>
+</body>
+<script>
+    document.getElementById('orderBtn').addEventListener('click', () => {
+        let status = document.getElementById('status');
+        FoodDelivery().then(() => {
+            status.textContent = "🍕 Pizza delivered!"
+        }).catch(() => { status.textContent = "⛔️ Delivery failed!" })
+    })
+
+
+    const FoodDelivery = () => {
+
+        let chance = Math.random() < .2
+        return new Promise((res, rej) => {
+            if (chance) {
+                rej();
+            } else {
+                setTimeout(() => res(), 2000);
+            }
+        }
+        )
+    }
+
+
+    // FoodDelivery()
+    // .then(()=>{console.log("🍕 Pizza delivered!")})
+    // .catch(()=>{console.log("⛔️ Delivery failed!")}) 
+</script>
+
+</html>
