@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    2. Basic async/await Conversion
+    Task: Create an async function processOrder.
+
+    Inside processOrder, use await to call the orderFood function you created in the first task.
+
+    Log the resolved message to the console.
+
+    Challenge: Use a try...catch block inside processOrder to handle the rejection from orderFood and log the error
+    message.
+    
+    <script>
+        
+
+        async function processOrder() {
+            try{
+                const message = await FoodDelivery();
+                console.log(message)
+            }catch(error){
+                console.log(error);
+            }
+        }
+    </script>
+</body>
+
+</html>

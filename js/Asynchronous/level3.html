@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    🧭 Intermediate: Chaining and Sequencing
+    3. Chaining Promises (Multi-Step Preparation)
+    Task: Simulate a two-step process using Promise chaining.
+
+    Create a function prepIngredients that resolves after 1 second with "✅ Ingredients prepped.".
+
+    Create a function cookMeal that takes the result of the first step as an argument and resolves after 3 seconds with
+    "🍽 Meal is cooked and ready!".
+
+    Call prepIngredients() and chain it to cookMeal(). Use a final .then() to log the end result.
+</body>
+<script>
+    const prepIngredients = (() => {
+        return new Promise((res, rej) => {
+            setTimeout(() => {
+                res("✅ Ingredients prepped.")
+            }, 1000)
+        })
+    })
+    const cookMeal = ((prepResult) => {
+        console.log(`22 ${prepResult}`)
+        return new Promise((res, rej) => {
+            setTimeout(() => {
+                res("🍽 Meal is cooked and ready!")
+            }, 3000);
+        })
+    })
+
+    prepIngredients()
+        .then((prepResult) => {
+            return cookMeal(prepResult)
+        }).then((fin) => {
+            console.log(`final result ${fin}`)
+        }).catch((error) => console.log(error))
+
+
+    // function fetchUser(userId) {
+    //     return new Promise((res, rej) => {
+    //         setTimeout(() => {
+    //             res({ id: userId, username: "Alice_Pro", role: "Admin" })
+    //         }, 2000);
+    //     })
+    // }
+
+    // function fetchPermissions(userObject) {
+    //     return new Promise((res, rej) => {
+    //         res({ canEdit: true, canDelete: userObject.role === "Admin" })
+    //     })
+    // }
+    // fetchUser(101).then((userId) => {
+    //     console.log(userId)
+    //     return fetchPermissions(userId)
+    // }).then((finout) => console.log("final output ...", finout)).catch((e) => console.log(e))1
+
+    // --- 1. User Fetching Function (2s delay) ---
+    function fetchUser(userId) {
+        return new Promise((res, rej) => {
+            console.log(`1. Fetching user ${userId}... (2s)`);
+            setTimeout(() => {
+                const user = { id: userId, username: "Alice_Pro", role: "Admin" };
+                res(user);
+            }, 2000);
+        })
+    }
+
+    // --- 2. Permissions Fetching Function (Takes userObject as argument, 1s delay) ---
+    function fetchPermissions(userObject) {
+        return new Promise((res, rej) => {
+            console.log(`2. User fetched. Checking permissions for role: ${userObject.role} (1s)`);
+            setTimeout(() => { // ⬅️ 1s delay
+                const permissions = { 
+                    canEdit: true, 
+                    canDelete: userObject.role === "Admin" 
+                };
+                res(permissions);
+            }, 1000);
+        })
+    }
+
+    // --- 3. Promise Chaining Implementation ---
+    fetchUser(101)
+        .then((userObject) => {
+            // અહીં 'userObject' માં fetchUser દ્વારા Resolve થયેલું ઓબ્જેક્ટ છે.
+            console.log("   User Object Received:", userObject); 
+            
+            // 🛑 RETURN સ્ટેટમેન્ટ પહેલાં લોગ કરો 
+            console.log("   ➡️ Returning fetchPermissions Promise..."); 
+            
+            // Promise Chaining માટે અહીં બીજા Promise ને RETURN કરવું જરૂરી છે.
+            return fetchPermissions(userObject); 
+        })
+        .then((finalPermissions) => {
+            // અહીં 'finalPermissions' માં fetchPermissions દ્વારા Resolve થયેલું ઓબ્જેક્ટ છે.
+            console.log("---------------------------------------");
+            console.log("🎉 Final Output (Permissions):", finalPermissions);
+            console.log("Total Time: ~3 seconds (2s + 1s)");
+            console.log("---------------------------------------");
+        })
+        .catch((e) => console.error("❌ An Error Occurred:", e));
+</script>
+
+</html>
