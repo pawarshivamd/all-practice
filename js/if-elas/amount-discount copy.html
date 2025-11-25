@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    amount discount
+    0 - 5000 0%
+    5001 - 7000 5%
+    7001 - 9000 10%
+    more than 9000 20%
+
+
+    <form action="">
+        <input type="number" id="input" placeholder="Enter Amount" min="0">
+        <button id="btn" type="submit">Calculate Discount</button>
+    </form>
+
+    <hr>
+
+    <table border="1" style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th colspan="2" style="background-color: #f0f0f0;">Calculation Results</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Discount Rate:</td>
+                <td id="discount-percent" style="font-weight: bold; color: green;">0%</td>
+            </tr>
+            <tr>
+                <td>Discount Amount:</td>
+                <td id="discount-amount" style="font-weight: bold; color: red;">0</td>
+            </tr>
+            <tr>
+                <td>**Final Amount:**</td>
+                <td id="final-amount" style="font-weight: bold; font-size: 20px;">0</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        const amountInput = document.getElementById('input');
+        const finalAmountDisplay = document.getElementById('final-amount');
+        const discountAmountDisplay = document.getElementById('discount-amount');
+        const discountRateDisplay = document.getElementById('discount-percent');
+        const btn = document.getElementById('btn');
+
+        // --- DSA Implementation Starts Here ---
+
+        // 1. Data Structure: Array of Objects (Discount Tiers)
+        // This array defines the thresholds and associated discounts.
+        const DISCOUNT_TIERS = [
+            { threshold: 9000, rate: 20 },
+            { threshold: 7000, rate: 10 },
+            { threshold: 5000, rate: 5 },
+            // Amounts <= 5000 will fall through and get 0%
+        ];
+
+        // 2. Algorithm: Find Discount Rate using Iteration/Search
+        function getDiscountRate(amount) {
+            // Iterate through the tiers defined in the Data Structure
+            for (const tier of DISCOUNT_TIERS) {
+                if (amount > tier.threshold) {
+                    // Found the applicable tier (starting from the highest threshold)
+                    return tier.rate;
+                }
+            }
+            // If no threshold is met, return the default rate (0%)
+            return 0;
+        }
+
+        // --- Event Listener remains mostly the same, using the new function ---
+
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const currentInputValue = Number(amountInput.value);
+
+            // --- Input Validation ---
+            if (currentInputValue <= 0 || isNaN(currentInputValue)) {
+                alert("Please enter a valid amount.");
+                discountRateDisplay.textContent = '0%';
+                discountAmountDisplay.textContent = '0';
+                finalAmountDisplay.textContent = '0';
+                return;
+            }
+
+            // Use the DSA function to get the discount rate
+            const dis = getDiscountRate(currentInputValue);
+
+            // --- Calculations ---
+            const discountAmount = currentInputValue * (dis / 100);
+            const FinalAmount = currentInputValue - discountAmount;
+
+            // --- Output ---
+            discountRateDisplay.textContent = `${dis}%`;
+            discountAmountDisplay.textContent = discountAmount.toFixed(2);
+            finalAmountDisplay.textContent = FinalAmount.toFixed(2);
+        });
+    </script>
+</body>
+
+</html>
