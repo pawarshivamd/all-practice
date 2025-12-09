@@ -1,0 +1,16 @@
+<script>
+    let com = Math.floor(Math.random() * 100) + 1
+
+    let userInput;
+    console.log(com)
+    do {
+        userInput = Number(prompt("Guess the number in b/w 1 to 100"))
+        if (isNaN(userInput) || userInput < 0 || userInput > 100) {
+            console.log("please enter the valid number")
+            continue
+        }
+        if (userInput > com) console.log("too high , try again")
+        else if (userInput < com) console.log("too Lower , try again")
+        else console.log(`Congrats 🥳 number was the ${com} `)
+    } while (userInput !== com);
+</script>
