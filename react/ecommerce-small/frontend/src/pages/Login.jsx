@@ -1,10 +1,9 @@
 import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { useForm } from "react-hook-form"
-import { Link, useNavigate } from 'react-router-dom'
-import { asyncRegisterUser } from '../store/action/UserAction'
 import { useDispatch } from 'react-redux'
-import { nanoid } from '@reduxjs/toolkit'
-const Register = () => {
+import { Link, useNavigate } from 'react-router-dom'
+import { asyncLoginUser } from '../store/action/UserAction'
+const Login = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { register,
@@ -14,27 +13,18 @@ const Register = () => {
     formState: { errors }, } = useForm()
 
   const onSubmit = (data) => {
-    data.id = nanoid()
-    data.isAdmin = false
-    dispatch(asyncRegisterUser(data))
+    
+    watch();
+    dispatch(asyncLoginUser(data))
     navigate('/')
     reset();
   }
   return (
-    <Container>
+    <Container >
       <div className='d-flex align-items-center min-vh-100'>
         <Form className='mx-auto' onSubmit={handleSubmit(onSubmit)}>
-          <Row className="mb-3">
-            <Form.Group as={Col} md="4" controlId="User-Name">
-              <Form.Label>User Name</Form.Label>
-              <Form.Control
-                {...register("username")}
-                type="text"
-                placeholder="Enter your name"
-                defaultValue="johnd"
-              />
-            </Form.Group>
-            <Form.Group as={Col} md="4" controlId="email">
+          <Row className="mb-3 gy-3">
+            <Form.Group as={Col} md='12' controlId="email">
               <Form.Label>User Email</Form.Label>
               <Form.Control
                 {...register("email")}
@@ -43,7 +33,7 @@ const Register = () => {
                 defaultValue='john@gmail.com'
               />
             </Form.Group>
-            <Form.Group as={Col} md="4" controlId="password">
+            <Form.Group as={Col} md='12' controlId="password">
               <Form.Label>Password</Form.Label>
               <Form.Control
                 {...register("password")}
@@ -53,14 +43,15 @@ const Register = () => {
               />
             </Form.Group>
             <Col md='12'>
-              You have allredy account? <Link to="/login">Login</Link>
+              You have not account? <Link to="/register">Register</Link>
             </Col>
           </Row>
           <Button type="submit">Submit form</Button>
         </Form>
       </div>
     </Container>
+
   )
 }
 
-export default Register
+export default Login

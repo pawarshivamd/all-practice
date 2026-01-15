@@ -8,8 +8,6 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         loadUser: (state, action) => {
-            console.log("🔥 Reducer called")
-            console.log("📩 Action:", action)
             state.data = action.payload
         }
     }
