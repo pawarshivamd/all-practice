@@ -7,6 +7,9 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Products from './pages/Products'
 import NavbarUi from './components/NavbarUi'
+import { asyncLoadProducts } from './store/action/ProductAction'
+import ProductsDetails from './pages/ProductsDetails'
+import CreateProduct from './pages/CreateProduct'
 function App() {
 
   const data = useSelector((state) => state)
@@ -16,7 +19,7 @@ function App() {
   useEffect(() => {
     console.log("🚀 Dispatching asyncGetUsers")
     dispatch(asyncCurrentUser())
-
+    dispatch(asyncLoadProducts())
   }, [])
 
   return (
@@ -28,6 +31,8 @@ function App() {
 
           <Route path="/" element={<Home/>} />
           <Route path="/products" element={<Products/>} />
+          <Route path="/products/:id" element={<ProductsDetails/>} />
+          <Route path="/create-product" element={<CreateProduct/>} />
           <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
         </Routes>

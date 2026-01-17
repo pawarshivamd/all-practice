@@ -1,5 +1,5 @@
 import axios from '../../api/axiosconfig'
-import { loadUser } from '../slice/UserSlice'
+import { loadUser, logoutUser } from '../slice/UserSlice'
 
 
 export const asyncLoginUser = (user) => async (dispatch, getState) => {
@@ -7,6 +7,8 @@ export const asyncLoginUser = (user) => async (dispatch, getState) => {
         const res = await axios.get(`/users?email=${user.email}&password=${user.password}`)
         console.log("loginuser", res.data[0])
         localStorage.setItem('user', JSON.stringify(res.data[0]))
+        dispatch(loadUser(res.data[0]))
+
     } catch (error) {
         console.log(error)
     }
@@ -15,6 +17,7 @@ export const asyncLogOutUser = () => async (dispatch, getState) => {
     try {
 
         localStorage.removeItem('user')
+        dispatch(logoutUser())
     } catch (error) {
         console.log(error)
     }
@@ -23,7 +26,7 @@ export const asyncCurrentUser = () => async (dispatch, getState) => {
     try {
 
         const user = JSON.parse(localStorage.getItem('user'))
-        if(user) dispatch(loadUser(user))
+        if (user) dispatch(loadUser(user))
         else console.log("user not found")
     } catch (error) {
         console.log(error)
