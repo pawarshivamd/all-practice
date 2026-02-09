@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+jspm_packages/
+
+# Environment Variables (Security ke liye sabse zaruri)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build folders
+dist/
+build/
+out/
+.next/
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs
+*.log
+
+# OS related files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Coverage folders (Testing)
+coverage/
