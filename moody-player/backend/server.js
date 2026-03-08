@@ -7,3 +7,5 @@ connectToDB()
 app.listen(process.env.PORT, () => {
     console.log(`server running on the ${process.env.PORT}`)
 })
+require("dotenv").config();
+
