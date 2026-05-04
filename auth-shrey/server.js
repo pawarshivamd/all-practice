@@ -4,6 +4,6 @@ const connectToDB = require("./src/db/db");
 
 connectToDB()
 
-app.listen(process.env.PORT,()=>{
+app.listen(process.env.PORT, () => {
     console.log(`server running on port ${process.env.PORT}`)
 })
